@@ -33,7 +33,6 @@ let searchAnime = (i, name, lastEp) => {
 		})
 		.then(entry => {
 			let split = entry.name.split('-')
-			//console.log(split)
 			let epNumber = parseInt(split[split.length - 1])
 			if (lastEp == epNumber) {
 				console.log(`You already saw the last episode of ${name} (${lastEp})`)
