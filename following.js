@@ -3,11 +3,8 @@ let names = [
     "Nande koko ni sensei ga",
     "Isekai quartet",
     "Fruits Basket",
-    "Sewayaki Kitsune",
     "One Punch Man",
-    "Dororo",
-    "Kimetsu no Yaiba",
-    "Fairy Gone"
+    "Dororo"
 ]
 
 let malEquivalent = {
@@ -15,11 +12,8 @@ let malEquivalent = {
     "Nande koko ni sensei ga": "Nande Koko ni Sensei ga!?",
     "Isekai quartet": "Isekai Quartet",
     "Fruits Basket": "Fruits Basket (2019)",
-    "Sewayaki Kitsune": "Sewayaki Kitsune no Senko-san",
     "One Punch Man": "One Punch Man 2nd Season",
-    "Dororo": "Dororo",
-    "Kimetsu no Yaiba": "Kimetsu no Yaiba",
-    "Fairy Gone": "Fairy Gone"
+    "Dororo": "Dororo"
 }
 
 module.exports = {
