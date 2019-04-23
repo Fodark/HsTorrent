@@ -8,11 +8,11 @@ let names = [
 ]
 
 let malEquivalent = {
-    "Jojo": "JoJo no Kimyou na Bouken: Ougon no Kaze",
-    "Nande koko ni sensei ga": "Nande Koko ni Sensei ga!?",
-    "Isekai quartet": "Isekai Quartet",
-    "Fruits Basket": "Fruits Basket (2019)",
-    "One Punch Man": "One Punch Man 2nd Season",
+    "JoJo no Kimyou na Bouken: Ougon no Kaze": "Jojo",
+    "Nande Koko ni Sensei ga!?": "Nande koko ni sensei ga",
+    "Isekai Quartet": "Isekai quartet",
+    "Fruits Basket (2019)": "Fruits Basket",
+    "One Punch Man 2nd Season": "One Punch Man",
     "Dororo": "Dororo"
 }
 
