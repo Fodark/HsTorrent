@@ -1,14 +1,11 @@
 const { si } = require('nyaapi')
-const { anime, malEquivalent } = require('./following')
-const { getMalInfo } = require('./utils')
+const { anime } = require('./following')
+const { getMalInfo, checkSettings } = require('./utils')
 const _ = require('lodash')
 const fs = require('fs')
 const { exec } = require('child_process')
 
-const currentlyOwned = fs.readdirSync('/mnt/DATA/home/nicola/torrents/complete')
-const currentlyDownloading = fs.readdirSync('/mnt/DATA/home/nicola/torrents/downloading')
-
-let intervalCode
+let settings, intervalCode, dFolder, tFolder
 
 let searchAnime = (i, name, lastEp) => {
 	if (i >= anime.length) {
@@ -36,7 +33,7 @@ let searchAnime = (i, name, lastEp) => {
 			let epNumber = parseInt(split[split.length - 1])
 			if (lastEp == epNumber) {
 				console.log(`You already saw the last episode of ${name} (${lastEp})`)
-			} else if (!currentlyOwned.includes(entry.name) && !currentlyDownloading.includes(`${entry.name}.part`)) {
+			} else if (!dFolder.includes(entry.name) && !tFolder.includes(`${entry.name}.part`)) {
 				console.log(`Gotta download episode ${epNumber} of ${name}`)
 				exec(`transmission-remote -a ${entry.magnet}`)
 			} else {
@@ -48,13 +45,26 @@ let searchAnime = (i, name, lastEp) => {
 }
 
 function main() {
-	getMalInfo('fodark').then(malInfo => {
+	checkSettings()
+	.then(s => {
+		settings = s
+		dFolder = fs.readdirSync(settings.downloadFolder)
+		tFolder = fs.readdirSync(settings.tmpFolder)
+		if(settings.useMAL) {
+			return getMalInfo(settings.malUsername)
+		} else {
+			let lastSeen = JSON.parse(fs.readFileSync('./lastseen.json'))
+			return lastSeen
+		}
+	})
+	.then(info => {
+		console.log('Starting check...')
 		let i = 0
 		intervalCode = setInterval(() => {
 			let name = anime[i]
-			searchAnime(i++, name, malInfo[malEquivalent[name]])
+			searchAnime(i++, name, info[name])
 		}, 2000)
 	})
 }
 
- main()
+main()
