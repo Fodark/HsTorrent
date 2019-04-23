@@ -1,5 +1,5 @@
 const { si } = require('nyaapi')
-const { anime, malEquivalent } = require('./following')
+const { anime } = require('./following')
 const { getMalInfo, checkSettings } = require('./utils')
 const _ = require('lodash')
 const fs = require('fs')
@@ -50,13 +50,19 @@ function main() {
 		settings = s
 		dFolder = fs.readdirSync(settings.downloadFolder)
 		tFolder = fs.readdirSync(settings.tmpFolder)
-		return getMalInfo(settings.malUsername)
+		if(settings.useMAL) {
+			return getMalInfo(settings.malUsername)
+		} else {
+			let lastSeen = JSON.parse(fs.readFileSync('./lastseen.json'))
+			return lastSeen
+		}
 	})
-	.then(malInfo => {
+	.then(info => {
+		console.log('Starting check...')
 		let i = 0
 		intervalCode = setInterval(() => {
 			let name = anime[i]
-			searchAnime(i++, name, malInfo[malEquivalent[name]])
+			searchAnime(i++, name, info[name])
 		}, 2000)
 	})
 }

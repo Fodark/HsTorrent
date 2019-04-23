@@ -1,7 +1,8 @@
 const fetch = require('node-fetch')
 const fs = require('fs')
 const argv = require('minimist')(process.argv.slice(2))
-const readlineSync = require('readline-sync');
+const readlineSync = require('readline-sync')
+const {malEquivalent} = require('./following')
 
 let settings = {}
 
@@ -11,7 +12,7 @@ let getMalInfo = username => {
         .then(body => {
             let anime = body
             let t = anime.reduce((total, current) => {
-                total[ current.anime_title ] = current.num_watched_episodes
+                total[ malEquivalent[current.anime_title] ] = current.num_watched_episodes
                 return total
             }, {})
 
@@ -27,18 +28,23 @@ let checkSettings = async () => {
 	} catch (error) {
         console.log('No settings file found, creating one right now...')
 
-        let downloadFolder = readlineSync.question('Download folder (where torrents are stored, default to ~/Downloads): ', {
-            defaultInput: '~/Downloads'
+        let downloadFolder = readlineSync.questionPath('Download folder (where torrents are stored, default to ~/Downloads): ', {
+            defaultInput: '~/Downloads',
+            isDirectory: true,
+            exists: true
         })
         settings.downloadFolder = downloadFolder
 
         let tmpFolder = readlineSync.question('Temporary download folder (leave empty if equals to download): ', {
-            defaultInput: downloadFolder
+            defaultInput: downloadFolder,
+            isDirectory: true,
+            exists: true
         })
         settings.tmpFolder = tmpFolder
 
         if(readlineSync.keyInYN('Do you want to use MyAnimeList as source? ')) {
             settings.useMAL = true
+            
             let username = readlineSync.question('MAL username: ')
             settings.malUsername = username
         } else {
