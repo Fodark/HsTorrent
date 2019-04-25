@@ -13,6 +13,7 @@ if the relative file is already present or downloading, and then, if also this i
 ## How to run it
 - Clone this repo locally
 - `npm install` to fetch needed libraries
+- Change the username in `app.js` if you want to use MyAnimeList
 - `npm start` to use it
 
 ## Which files does it use?
